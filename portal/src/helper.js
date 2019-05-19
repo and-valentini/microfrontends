@@ -1,9 +1,9 @@
 import * as singleSpa from 'single-spa';
-import {GlobalEventDistributor} from "./globalEventDistributor"; // waiting for this to be merged: https://github.com/CanopyTax/single-spa/pull/156
+import {GlobalEventDistributor} from "./globalEventDistributor";
 
 function hashPrefix(prefix) {
     return function (location) {
-        return location.hash.startsWith(`#${prefix}`);
+        return location.pathname.startsWith(`${prefix}`) || location.hash.startsWith(`#${prefix}`);
     }
 }
 
@@ -29,14 +29,16 @@ async function loadApp(name, hash, appURL, storeURL, globalEventDistributor) {
     singleSpa.registerApplication(name, () => SystemJS.import(appURL), hashPrefix(hash), customProps);
 }
 
-export async function init(applications) {
+export async function applicationsLoader(applications) {
     const globalEventDistributor = new GlobalEventDistributor();
     const loadingPromises = [];
     for(const {name,hash,url,entry,store} of applications) {
         loadingPromises.push(loadApp(name, hash, url+entry,store ? url+store : null,store ? globalEventDistributor : null))
     }
-    // wait until all stores are loaded and all apps are registered with singleSpa
     await Promise.all(loadingPromises);
 
+}
+
+export function init() {
     singleSpa.start();
 }

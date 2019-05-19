@@ -11,6 +11,13 @@
     "start:app4": "cd ../app4vue/ && npm run watch:portal",
     "start:app5": "cd ../app5Angular/ && npm run watch:portal",
 
+    "inst": "npm i",
+    "inst:app0": "cd ../app0React/ && npm i",
+    "inst:app1": "cd ../app1React/ && npm i",
+    "inst:app2": "cd ../app2Angular/ && npm i",
+    "inst:app3": "cd ../app3Angular1/ && npm i",
+    "inst:app4": "cd ../app4vue/ && npm i",
+    "inst:app5": "cd ../app5Angular/ && npm i",
     "build": "webpack -p --progress"
   },
   "author": "Michael Ruecker",
